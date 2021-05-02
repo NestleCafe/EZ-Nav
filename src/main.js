@@ -9,15 +9,13 @@ const hashMap = xObject || [
     {logo:"Z", logoType:"text", url:"https://www.zhihu.com/"},
 ]
 const bodyBackground = [
-    "./imges/background/background_1.jpg",
-    "./imges/background/background_2.jpg",
-    "./imges/background/background_3.jpg",
-    "./imges/background/background_4.jpg",
-    "./imges/background/background_5.jpg",
-    "./imges/background/background_6.jpg",
+    " url('./imges/background/background_1.jpg')",
+    " url('./imges/background/background_2.jpg')",
+    " url('./imges/background/background_3.jpg')",
+    " url('./imges/background/background_4.jpg')",
+    " url('./imges/background/background_5.jpg')",
+    " url('./imges/background/background_6.jpg')",
 ]
-
-/*  $('body').css("background-image",`url('${bodyBackground[2]}')`) */ //问题
 
 const removePrefix = (url) =>{
     return url.replace('https://', '')
@@ -125,14 +123,14 @@ let i=0
 render_buttonColor()
 $('.previous_pic').on('click',(e)=>{
     if(i !==0){
-        i--
+        $('body').css("background-image",`${bodyBackground[i-1]}`)
         render_buttonColor()
     }
     
 })
 $('.next_pic').on('click',(e)=>{
     if(i !== 5){
-        i++
+        $('body').css("background-image",`${bodyBackground[i+1]}`)
         render_buttonColor()
     }
 })
