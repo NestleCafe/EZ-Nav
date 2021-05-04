@@ -1,6 +1,8 @@
 const $siteList = $('.siteList')
 const $lastLi = $siteList.find('li.last')
+
 const x = localStorage.getItem('x') //本地存储增加的站点
+
 const xObject = JSON.parse(x)
 const hashMap = xObject || [
     {logo:"G", logoType:'text',url:"https://github.com/"},
@@ -9,12 +11,12 @@ const hashMap = xObject || [
     {logo:"Z", logoType:"text", url:"https://www.zhihu.com/"},
 ]
 const bodyBackground = [
-    " url('./imges/background/background_1.jpg')",
-    " url('./imges/background/background_2.jpg')",
-    " url('./imges/background/background_3.jpg')",
-    " url('./imges/background/background_4.jpg')",
-    " url('./imges/background/background_5.jpg')",
-    " url('./imges/background/background_6.jpg')",
+    " url('https://tupian.sioe.cn/b/bing-home-image/pic/20210430.jpg')",
+    " url('https://tupian.sioe.cn/b/bing-home-image/pic/20210429.jpg')",
+    " url('https://tupian.sioe.cn/b/bing-home-image/pic/20210428.jpg')",
+    " url('https://tupian.sioe.cn/b/bing-home-image/pic/20210427.jpg')",
+    " url('https://tupian.sioe.cn/b/bing-home-image/pic/20210426.jpg')",
+    " url('https://tupian.sioe.cn/b/bing-home-image/pic/20210425.jpg')",
 ]
 
 const removePrefix = (url) =>{
@@ -72,11 +74,7 @@ $('.close')
     console.log('close被点击')
     
 })
-//localStorage
-window.onbeforeunload = () =>{
-    const string = JSON.stringify(hashMap)
-    localStorage.setItem('x', string)
-}
+
 /* 
 $(document).on('keypress', (e)=>{
     const {key} = e
@@ -119,18 +117,29 @@ const render_buttonColor = ()=>{
         $('.next').css("opacity","1")
     }
 }
-let i=0
+let i = 0
+$('body').css("background-image",`${bodyBackground[i]}`)
 render_buttonColor()
-$('.previous_pic').on('click',(e)=>{
-    if(i !==0){
-        $('body').css("background-image",`${bodyBackground[i-1]}`)
+
+$('.previous').on('click',()=>{
+    if(i > 0){
+        i--
         render_buttonColor()
+        $('body').css("background-image",`${bodyBackground[i]}`)
     }
     
 })
-$('.next_pic').on('click',(e)=>{
-    if(i !== 5){
-        $('body').css("background-image",`${bodyBackground[i+1]}`)
+$('.next').on('click',()=>{
+    if(i < 5){
+        i++
         render_buttonColor()
+        $('body').css("background-image",`${bodyBackground[i]}`)
+        
     }
 })
+
+//localStorage
+window.onbeforeunload = () =>{
+    const string = JSON.stringify(hashMap)
+    localStorage.setItem('x', string)
+}

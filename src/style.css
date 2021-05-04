@@ -10,14 +10,11 @@ img{max-width: 100%; max-height: 100%;}
 body{
     background: #eee;
     width: 100vw;
-   
-    
 }
 
 @media (min-width:500px){
     
     body{
-        background-image: url('./imges/background/background_1.jpg');
         background-size:cover;
         background-attachment:fixed;
         }
@@ -43,7 +40,7 @@ body{
         margin-left: auto;
     }
 }
-.selectorWrapper .active .wrapperLeft{
+.selectorWrapper .wrapperLeft{
     width: 80px;
     height:40px;
     margin-right: 0px;
@@ -53,7 +50,7 @@ body{
     border-radius: 4px 0 0 0;
     padding: 7px;
 }
-.selectorWrapper .active .wrapperRight{
+.selectorWrapper .wrapperRight{
 
     justify-content:space-between;
     width: 0;
@@ -68,25 +65,10 @@ body{
     opacity: 0.5;
 }
 .selectorWrapper .inactive .wrapperLeft{
-    width: 80px;
-    height:40px;
-    margin-right: 0px;
     background: #e5dfdc;
-    padding: 3px 3px;
-    white-space: nowrap;
-    border-radius: 4px 0 0 0;
-    padding: 7px;
 }
 .selectorWrapper .inactive .wrapperRight{
-
-    justify-content:space-between;
-    width: 0;
-    height: 0;
-    border-left: 10px solid transparent;
-    border-right: 10px solid transparent;
     border-bottom: 40px solid #e5dfdc;
-    margin-left: -10px;
-    z-index: -1;
 }
 
 .globalHeader{

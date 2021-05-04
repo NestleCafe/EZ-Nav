@@ -140,9 +140,7 @@ var hashMap = xObject || [{
   logoType: "text",
   url: "https://www.zhihu.com/"
 }];
-var bodyBackground = ["./imges/background/background_1.jpg", "./imges/background/background_2.jpg", "./imges/background/background_3.jpg", "./imges/background/background_4.jpg", "./imges/background/background_5.jpg", "./imges/background/background_6.jpg"];
-/*  $('body').css("background-image",`url('${bodyBackground[2]}')`) */
-//问题
+var bodyBackground = [" url('https://tupian.sioe.cn/b/bing-home-image/pic/20210430.jpg')", " url('https://tupian.sioe.cn/b/bing-home-image/pic/20210429.jpg')", " url('https://tupian.sioe.cn/b/bing-home-image/pic/20210428.jpg')", " url('https://tupian.sioe.cn/b/bing-home-image/pic/20210427.jpg')", " url('https://tupian.sioe.cn/b/bing-home-image/pic/20210426.jpg')", " url('https://tupian.sioe.cn/b/bing-home-image/pic/20210425.jpg')"];
 
 var removePrefix = function removePrefix(url) {
   return url.replace('https://', '').replace('http://', '').replace('www.', '').replace(/\/.*/, ''); //用正则表达式 删除 / 开头的内容
@@ -181,12 +179,7 @@ $('.addButton').on('click', function () {
 });
 $('.close').on('click', function () {
   console.log('close被点击');
-}); //localStorage
-
-window.onbeforeunload = function () {
-  var string = JSON.stringify(hashMap);
-  localStorage.setItem('x', string);
-};
+});
 /* 
 $(document).on('keypress', (e)=>{
     const {key} = e
@@ -197,7 +190,6 @@ $(document).on('keypress', (e)=>{
     }
 }) */
 //暂时禁用了键盘导航
-
 
 $('#baidu').on('click', function () {
   if ($('#baidu').attr('class') === 'inactive') {
@@ -228,18 +220,26 @@ var render_buttonColor = function render_buttonColor() {
 };
 
 var i = 0;
+$('body').css("background-image", "".concat(bodyBackground[i]));
 render_buttonColor();
-$('.previous_pic').on('click', function (e) {
-  if (i !== 0) {
+$('.previous').on('click', function () {
+  if (i > 0) {
     i--;
     render_buttonColor();
+    $('body').css("background-image", "".concat(bodyBackground[i]));
   }
 });
-$('.next_pic').on('click', function (e) {
-  if (i !== 5) {
+$('.next').on('click', function () {
+  if (i < 5) {
     i++;
     render_buttonColor();
+    $('body').css("background-image", "".concat(bodyBackground[i]));
   }
-});
+}); //localStorage
+
+window.onbeforeunload = function () {
+  var string = JSON.stringify(hashMap);
+  localStorage.setItem('x', string);
+};
 },{}]},{},["epB2"], null)
-//# sourceMappingURL=main.6383e5dc.js.map
+//# sourceMappingURL=main.390668ca.js.map
