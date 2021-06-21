@@ -11,19 +11,25 @@ const hashMap = xObject || [
     {logo:"Z", logoType:"text", url:"https://www.zhihu.com/"},
 ]
 
-    const d = new Date()
-    const month = (d.getMonth()+1)<10 ? '0'+`${(d.getMonth()+1)}` : d.getMonth()+1;
-    const date = `${d.getFullYear()}${month}${d.getDate()}`
-    console.log(date)
-    
-    
+getDateStr = (DayCount) =>{ 
+    var d = new Date();
+    d.setDate(d.getDate()+DayCount);//获取AddDayCount天后的日期
+    var y = d.getFullYear(); 
+    var m = (d.getMonth()+1)<10 ? "0"+(d.getMonth()+1) : (d.getMonth()+1);//获取当前月份的日期，不足10补0
+    var d = d.getDate()<10 ? "0"+d.getDate() : d.getDate();//获取当前几号，不足10补0
+    return y+m+d; 
+}
+let dateList =[]
+for(let i=0,j=0;i<6;i++,j--){
+    dateList[i] = getDateStr(j)
+}
 const bodyBackground = [
-    ` url('https://tupian.sioe.cn/b/bing-home-image/pic/20210430.jpg')`,
-    " url('https://tupian.sioe.cn/b/bing-home-image/pic/20210429.jpg')",
-    " url('https://tupian.sioe.cn/b/bing-home-image/pic/20210428.jpg')",
-    " url('https://tupian.sioe.cn/b/bing-home-image/pic/20210427.jpg')",
-    " url('https://tupian.sioe.cn/b/bing-home-image/pic/20210426.jpg')",
-    " url('https://tupian.sioe.cn/b/bing-home-image/pic/20210425.jpg')",
+    ` url('https://tupian.sioe.cn/b/bing-home-image/pic/${dateList[0]}.jpg')`,
+    ` url('https://tupian.sioe.cn/b/bing-home-image/pic/${dateList[1]}.jpg')`,
+    ` url('https://tupian.sioe.cn/b/bing-home-image/pic/${dateList[2]}.jpg')`,
+    ` url('https://tupian.sioe.cn/b/bing-home-image/pic/${dateList[3]}.jpg')`,
+    ` url('https://tupian.sioe.cn/b/bing-home-image/pic/${dateList[4]}.jpg')`,
+    ` url('https://tupian.sioe.cn/b/bing-home-image/pic/${dateList[5]}.jpg')`,
 ]
 
 const removePrefix = (url) =>{

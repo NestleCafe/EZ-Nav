@@ -140,11 +140,26 @@ var hashMap = xObject || [{
   logoType: "text",
   url: "https://www.zhihu.com/"
 }];
-var d = new Date();
-var month = d.getMonth() + 1 < 10 ? '0' + "".concat(d.getMonth() + 1) : d.getMonth() + 1;
-var date = "".concat(d.getFullYear()).concat(month).concat(d.getDate());
-console.log(date);
-var bodyBackground = [" url('https://tupian.sioe.cn/b/bing-home-image/pic/20210430.jpg')", " url('https://tupian.sioe.cn/b/bing-home-image/pic/20210429.jpg')", " url('https://tupian.sioe.cn/b/bing-home-image/pic/20210428.jpg')", " url('https://tupian.sioe.cn/b/bing-home-image/pic/20210427.jpg')", " url('https://tupian.sioe.cn/b/bing-home-image/pic/20210426.jpg')", " url('https://tupian.sioe.cn/b/bing-home-image/pic/20210425.jpg')"];
+
+getDateStr = function getDateStr(DayCount) {
+  var d = new Date();
+  d.setDate(d.getDate() + DayCount); //获取AddDayCount天后的日期
+
+  var y = d.getFullYear();
+  var m = d.getMonth() + 1 < 10 ? "0" + (d.getMonth() + 1) : d.getMonth() + 1; //获取当前月份的日期，不足10补0
+
+  var d = d.getDate() < 10 ? "0" + d.getDate() : d.getDate(); //获取当前几号，不足10补0
+
+  return y + m + d;
+};
+
+var dateList = [];
+
+for (var _i = 0, j = 0; _i < 6; _i++, j--) {
+  dateList[_i] = getDateStr(j);
+}
+
+var bodyBackground = [" url('https://tupian.sioe.cn/b/bing-home-image/pic/".concat(dateList[0], ".jpg')"), " url('https://tupian.sioe.cn/b/bing-home-image/pic/".concat(dateList[1], ".jpg')"), " url('https://tupian.sioe.cn/b/bing-home-image/pic/".concat(dateList[2], ".jpg')"), " url('https://tupian.sioe.cn/b/bing-home-image/pic/".concat(dateList[3], ".jpg')"), " url('https://tupian.sioe.cn/b/bing-home-image/pic/".concat(dateList[4], ".jpg')"), " url('https://tupian.sioe.cn/b/bing-home-image/pic/".concat(dateList[5], ".jpg')")];
 
 var removePrefix = function removePrefix(url) {
   return url.replace('https://', '').replace('http://', '').replace('www.', '').replace(/\/.*/, ''); //用正则表达式 删除 / 开头的内容
@@ -246,4 +261,4 @@ window.onbeforeunload = function () {
   localStorage.setItem('x', string);
 };
 },{}]},{},["epB2"], null)
-//# sourceMappingURL=main.64840b6e.js.map
+//# sourceMappingURL=main.6dcd9038.js.map
