@@ -10,8 +10,15 @@ const hashMap = xObject || [
     {logo:"B", logoType:"text", url:"https://www.bilibili.com/"},
     {logo:"Z", logoType:"text", url:"https://www.zhihu.com/"},
 ]
+
+    const d = new Date()
+    const month = (d.getMonth()+1)<10 ? '0'+`${(d.getMonth()+1)}` : d.getMonth()+1;
+    const date = `${d.getFullYear()}${month}${d.getDate()}`
+    console.log(date)
+    
+    
 const bodyBackground = [
-    " url('https://tupian.sioe.cn/b/bing-home-image/pic/20210430.jpg')",
+    ` url('https://tupian.sioe.cn/b/bing-home-image/pic/20210430.jpg')`,
     " url('https://tupian.sioe.cn/b/bing-home-image/pic/20210429.jpg')",
     " url('https://tupian.sioe.cn/b/bing-home-image/pic/20210428.jpg')",
     " url('https://tupian.sioe.cn/b/bing-home-image/pic/20210427.jpg')",

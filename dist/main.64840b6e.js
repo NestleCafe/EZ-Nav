@@ -140,6 +140,10 @@ var hashMap = xObject || [{
   logoType: "text",
   url: "https://www.zhihu.com/"
 }];
+var d = new Date();
+var month = d.getMonth() + 1 < 10 ? '0' + "".concat(d.getMonth() + 1) : d.getMonth() + 1;
+var date = "".concat(d.getFullYear()).concat(month).concat(d.getDate());
+console.log(date);
 var bodyBackground = [" url('https://tupian.sioe.cn/b/bing-home-image/pic/20210430.jpg')", " url('https://tupian.sioe.cn/b/bing-home-image/pic/20210429.jpg')", " url('https://tupian.sioe.cn/b/bing-home-image/pic/20210428.jpg')", " url('https://tupian.sioe.cn/b/bing-home-image/pic/20210427.jpg')", " url('https://tupian.sioe.cn/b/bing-home-image/pic/20210426.jpg')", " url('https://tupian.sioe.cn/b/bing-home-image/pic/20210425.jpg')"];
 
 var removePrefix = function removePrefix(url) {
@@ -242,4 +246,4 @@ window.onbeforeunload = function () {
   localStorage.setItem('x', string);
 };
 },{}]},{},["epB2"], null)
-//# sourceMappingURL=main.390668ca.js.map
+//# sourceMappingURL=main.64840b6e.js.map
