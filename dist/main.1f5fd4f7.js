@@ -239,8 +239,16 @@ var render_buttonColor = function render_buttonColor() {
 };
 
 var i = 0;
-$('body').css("background-image", "".concat(bodyBackground[i]));
-render_buttonColor();
+var media = window.matchMedia("(min-width:500px)");
+
+if (media.matches) {
+  // 媒体查询
+  $('body').css("background-image", "".concat(bodyBackground[i]));
+  render_buttonColor();
+} else {
+  $('body').css("background-image", "url('https://api.dujin.org/bing/m.php')");
+}
+
 $('.previous').on('click', function () {
   if (i > 0) {
     i--;
@@ -252,13 +260,17 @@ $('.next').on('click', function () {
   if (i < 5) {
     i++;
     render_buttonColor();
-    $('body').css("background-image", "".concat(bodyBackground[i]));
+    $('body').css({
+      "background-image": "".concat(bodyBackground[i])
+    });
   }
-}); //localStorage
+});
+/* $('.copyright .text').text('我是底部文字') */
+//localStorage
 
 window.onbeforeunload = function () {
   var string = JSON.stringify(hashMap);
   localStorage.setItem('x', string);
 };
 },{}]},{},["epB2"], null)
-//# sourceMappingURL=main.6dcd9038.js.map
+//# sourceMappingURL=main.1f5fd4f7.js.map

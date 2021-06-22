@@ -131,8 +131,14 @@ const render_buttonColor = ()=>{
     }
 }
 let i = 0
-$('body').css("background-image",`${bodyBackground[i]}`)
-render_buttonColor()
+const media = window.matchMedia("(min-width:500px)")
+if (media.matches) { // 媒体查询
+    $('body').css("background-image",`${bodyBackground[i]}`)
+    render_buttonColor()
+}else{
+    $('body').css("background-image","url('https://api.dujin.org/bing/m.php')")
+} 
+
 
 $('.previous').on('click',()=>{
     if(i > 0){
@@ -146,10 +152,15 @@ $('.next').on('click',()=>{
     if(i < 5){
         i++
         render_buttonColor()
-        $('body').css("background-image",`${bodyBackground[i]}`)
+        $('body').css({
+            "background-image":`${bodyBackground[i]}`,
+            
+        })
         
     }
 })
+
+/* $('.copyright .text').text('我是底部文字') */
 
 //localStorage
 window.onbeforeunload = () =>{
