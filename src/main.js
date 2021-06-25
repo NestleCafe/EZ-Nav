@@ -12,11 +12,11 @@ const hashMap = xObject || [
 ]
 
 getDateStr = (DayCount) =>{ 
-    const d = new Date();
-    d.setDate(d.getDate()+DayCount);//获取DayCount天后的日期
-    const y = d.getFullYear(); 
-    const m = (d.getMonth()+1)<10 ? "0"+(d.getMonth()+1) : (d.getMonth()+1);//获取当前月份的日期，不足10补0
-    const d = d.getDate()<10 ? "0"+d.getDate() : d.getDate();//获取当前几号，不足10补0
+    const date = new Date();
+    date.setDate(date.getDate()+DayCount);//获取DayCount天后的日期
+    const y = date.getFullYear(); 
+    const m = (date.getMonth()+1)<10 ? "0"+(date.getMonth()+1) : (date.getMonth()+1);//获取当前月份的日期，不足10补0
+    const d = date.getDate()<10 ? "0"+date.getDate() : date.getDate();//获取当前几号，不足10补0
     return y+m+d; 
 }
 let dateList = []
@@ -150,7 +150,7 @@ $('.previous').on('click',()=>{
     if(i > 0){
         i--
         render_buttonColor()
-        $('body').css("background-image",`url('${bodyBackgroundUrl[i]})`)
+        $('body').css("background-image",`url('${bodyBackgroundUrl[i]}')`)
     }
     
 })
@@ -158,7 +158,7 @@ $('.next').on('click',()=>{
     if(i < 5){
         i++
         render_buttonColor()
-        $('body').css("background-image",`url('${bodyBackgroundUrl[i]})`)
+        $('body').css("background-image",`url('${bodyBackgroundUrl[i]}')`)
         
     }
 })
