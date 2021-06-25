@@ -12,25 +12,28 @@ const hashMap = xObject || [
 ]
 
 getDateStr = (DayCount) =>{ 
-    var d = new Date();
-    d.setDate(d.getDate()+DayCount);//获取AddDayCount天后的日期
-    var y = d.getFullYear(); 
-    var m = (d.getMonth()+1)<10 ? "0"+(d.getMonth()+1) : (d.getMonth()+1);//获取当前月份的日期，不足10补0
-    var d = d.getDate()<10 ? "0"+d.getDate() : d.getDate();//获取当前几号，不足10补0
+    const d = new Date();
+    d.setDate(d.getDate()+DayCount);//获取DayCount天后的日期
+    const y = d.getFullYear(); 
+    const m = (d.getMonth()+1)<10 ? "0"+(d.getMonth()+1) : (d.getMonth()+1);//获取当前月份的日期，不足10补0
+    const d = d.getDate()<10 ? "0"+d.getDate() : d.getDate();//获取当前几号，不足10补0
     return y+m+d; 
 }
-let dateList =[]
+let dateList = []
+let bodyBackgroundUrl = []
+//获取日期对应的bing背景图
 for(let i=0,j=0;i<6;i++,j--){
     dateList[i] = getDateStr(j)
+    bodyBackgroundUrl[i] = `https://tupian.sioe.cn/b/bing-home-image/pic/${dateList[i]}.jpg`
 }
-const bodyBackground = [
-    ` url('https://tupian.sioe.cn/b/bing-home-image/pic/${dateList[0]}.jpg')`,
-    ` url('https://tupian.sioe.cn/b/bing-home-image/pic/${dateList[1]}.jpg')`,
-    ` url('https://tupian.sioe.cn/b/bing-home-image/pic/${dateList[2]}.jpg')`,
-    ` url('https://tupian.sioe.cn/b/bing-home-image/pic/${dateList[3]}.jpg')`,
-    ` url('https://tupian.sioe.cn/b/bing-home-image/pic/${dateList[4]}.jpg')`,
-    ` url('https://tupian.sioe.cn/b/bing-home-image/pic/${dateList[5]}.jpg')`,
-]
+/* const bodyBackgroundUrl = [
+    `https://tupian.sioe.cn/b/bing-home-image/pic/${dateList[0]}.jpg`,
+    `https://tupian.sioe.cn/b/bing-home-image/pic/${dateList[1]}.jpg`,
+    `https://tupian.sioe.cn/b/bing-home-image/pic/${dateList[2]}.jpg`,
+    `https://tupian.sioe.cn/b/bing-home-image/pic/${dateList[3]}.jpg`,
+    `https://tupian.sioe.cn/b/bing-home-image/pic/${dateList[4]}.jpg`,
+    `https://tupian.sioe.cn/b/bing-home-image/pic/${dateList[5]}.jpg`,
+] */
 
 const removePrefix = (url) =>{
     return url.replace('https://', '')
@@ -96,7 +99,7 @@ $(document).on('keypress', (e)=>{
             window.open(hashMap[i].url)
         }
     }
-}) */ //暂时禁用了键盘导航
+}) */ //禁用了键盘导航
 
 $('#baidu').on('click', ()=>{
     if($('#baidu').attr('class') === 'inactive'){
@@ -130,10 +133,13 @@ const render_buttonColor = ()=>{
         $('.next').css("opacity","1")
     }
 }
+
+
+
 let i = 0
 const media = window.matchMedia("(min-width:500px)")
 if (media.matches) { // 媒体查询
-    $('body').css("background-image",`${bodyBackground[i]}`)
+    $('body').css("background-image",`url('${bodyBackgroundUrl[i]}')`)
     render_buttonColor()
 }else{
     $('body').css("background-image","url('https://api.dujin.org/bing/m.php')")
@@ -144,7 +150,7 @@ $('.previous').on('click',()=>{
     if(i > 0){
         i--
         render_buttonColor()
-        $('body').css("background-image",`${bodyBackground[i]}`)
+        $('body').css("background-image",`url('${bodyBackgroundUrl[i]})`)
     }
     
 })
@@ -152,10 +158,7 @@ $('.next').on('click',()=>{
     if(i < 5){
         i++
         render_buttonColor()
-        $('body').css({
-            "background-image":`${bodyBackground[i]}`,
-            
-        })
+        $('body').css("background-image",`url('${bodyBackgroundUrl[i]})`)
         
     }
 })
