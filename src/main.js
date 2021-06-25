@@ -26,14 +26,6 @@ for(let i=0,j=0;i<6;i++,j--){
     dateList[i] = getDateStr(j)
     bodyBackgroundUrl[i] = `https://tupian.sioe.cn/b/bing-home-image/pic/${dateList[i]}.jpg`
 }
-/* const bodyBackgroundUrl = [
-    `https://tupian.sioe.cn/b/bing-home-image/pic/${dateList[0]}.jpg`,
-    `https://tupian.sioe.cn/b/bing-home-image/pic/${dateList[1]}.jpg`,
-    `https://tupian.sioe.cn/b/bing-home-image/pic/${dateList[2]}.jpg`,
-    `https://tupian.sioe.cn/b/bing-home-image/pic/${dateList[3]}.jpg`,
-    `https://tupian.sioe.cn/b/bing-home-image/pic/${dateList[4]}.jpg`,
-    `https://tupian.sioe.cn/b/bing-home-image/pic/${dateList[5]}.jpg`,
-] */
 
 const removePrefix = (url) =>{
     return url.replace('https://', '')

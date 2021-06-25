@@ -160,15 +160,6 @@ for (var _i = 0, j = 0; _i < 6; _i++, j--) {
   dateList[_i] = getDateStr(j);
   bodyBackgroundUrl[_i] = "https://tupian.sioe.cn/b/bing-home-image/pic/".concat(dateList[_i], ".jpg");
 }
-/* const bodyBackgroundUrl = [
-    `https://tupian.sioe.cn/b/bing-home-image/pic/${dateList[0]}.jpg`,
-    `https://tupian.sioe.cn/b/bing-home-image/pic/${dateList[1]}.jpg`,
-    `https://tupian.sioe.cn/b/bing-home-image/pic/${dateList[2]}.jpg`,
-    `https://tupian.sioe.cn/b/bing-home-image/pic/${dateList[3]}.jpg`,
-    `https://tupian.sioe.cn/b/bing-home-image/pic/${dateList[4]}.jpg`,
-    `https://tupian.sioe.cn/b/bing-home-image/pic/${dateList[5]}.jpg`,
-] */
-
 
 var removePrefix = function removePrefix(url) {
   return url.replace('https://', '').replace('http://', '').replace('www.', '').replace(/\/.*/, ''); //用正则表达式 删除 / 开头的内容
@@ -280,4 +271,4 @@ window.onbeforeunload = function () {
   localStorage.setItem('x', string);
 };
 },{}]},{},["epB2"], null)
-//# sourceMappingURL=main.bfb58487.js.map
+//# sourceMappingURL=main.872dcc82.js.map
