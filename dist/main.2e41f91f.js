@@ -145,10 +145,10 @@ getDateStr = function getDateStr(DayCount) {
   var date = new Date();
   date.setDate(date.getDate() + DayCount); //获取DayCount天后的日期
 
-  var y = date.getFullYear();
-  var m = date.getMonth() + 1 < 10 ? "0" + (date.getMonth() + 1) : date.getMonth() + 1; //获取当前月份的日期，不足10补0
+  var y = date.getFullYear().toString();
+  var m = date.getMonth() + 1 < 10 ? "0" + (date.getMonth() + 1).toString() : (date.getMonth() + 1).toString(); //获取当前月份的日期，不足10补0
 
-  var d = date.getDate() < 10 ? "0" + date.getDate() : date.getDate(); //获取当前几号，不足10补0
+  var d = date.getDate() < 10 ? "0" + date.getDate().toString() : date.getDate().toString(); //获取当前几号，不足10补0
 
   return y + m + d;
 };
@@ -160,6 +160,8 @@ for (var _i = 0, j = 0; _i < 6; _i++, j--) {
   dateList[_i] = getDateStr(j);
   bodyBackgroundUrl[_i] = "https://tupian.sioe.cn/b/bing-home-image/pic/".concat(dateList[_i], ".jpg");
 }
+
+console.log(dateList);
 
 var removePrefix = function removePrefix(url) {
   return url.replace('https://', '').replace('http://', '').replace('www.', '').replace(/\/.*/, ''); //用正则表达式 删除 / 开头的内容
@@ -271,4 +273,4 @@ window.onbeforeunload = function () {
   localStorage.setItem('x', string);
 };
 },{}]},{},["epB2"], null)
-//# sourceMappingURL=main.872dcc82.js.map
+//# sourceMappingURL=main.2e41f91f.js.map

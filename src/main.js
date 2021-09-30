@@ -14,9 +14,9 @@ const hashMap = xObject || [
 getDateStr = (DayCount) =>{ 
     const date = new Date();
     date.setDate(date.getDate()+DayCount);//获取DayCount天后的日期
-    const y = date.getFullYear(); 
-    const m = (date.getMonth()+1)<10 ? "0"+(date.getMonth()+1) : (date.getMonth()+1);//获取当前月份的日期，不足10补0
-    const d = date.getDate()<10 ? "0"+date.getDate() : date.getDate();//获取当前几号，不足10补0
+    const y = date.getFullYear().toString(); 
+    const m = (date.getMonth()+1)<10 ? "0"+(date.getMonth()+1).toString() : (date.getMonth()+1).toString();//获取当前月份的日期，不足10补0
+    const d = date.getDate()<10 ? "0"+date.getDate().toString() : date.getDate().toString();//获取当前几号，不足10补0
     return y+m+d; 
 }
 let dateList = []
@@ -26,6 +26,8 @@ for(let i=0,j=0;i<6;i++,j--){
     dateList[i] = getDateStr(j)
     bodyBackgroundUrl[i] = `https://tupian.sioe.cn/b/bing-home-image/pic/${dateList[i]}.jpg`
 }
+
+console.log(dateList)
 
 const removePrefix = (url) =>{
     return url.replace('https://', '')

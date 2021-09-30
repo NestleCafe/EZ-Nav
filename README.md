@@ -1,4 +1,4 @@
-使用原生JavaScript编写，自定义常用网站数据储存在LocalStorage
+基于JQuery，自定义常用网站数据储存在LocalStorage
 
 预览链接：https://nestlecafe.github.io/nav-2/dist/index.html
 
