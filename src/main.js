@@ -10,24 +10,52 @@ const hashMap = xObject || [
     {logo:"B", logoType:"text", url:"https://www.bilibili.com/"},
     {logo:"Z", logoType:"text", url:"https://www.zhihu.com/"},
 ]
-
-getDateStr = (DayCount) =>{ 
+// 1直接用现成url
+/* const getDateStr = (DayCount) =>{ 
     const date = new Date();
     date.setDate(date.getDate()+DayCount);//获取DayCount天后的日期
     const y = date.getFullYear().toString(); 
     const m = (date.getMonth()+1)<10 ? "0"+(date.getMonth()+1).toString() : (date.getMonth()+1).toString();//获取当前月份的日期，不足10补0
     const d = date.getDate()<10 ? "0"+date.getDate().toString() : date.getDate().toString();//获取当前几号，不足10补0
     return y+m+d; 
+
+    //获取日期对应的bing背景图
+    for(let i=0,j=0;i<6;i++,j--){
+        dateList[i] = getDateStr(j)
+        bodyBackgroundUrl[i] = `https://tupian.sioe.cn/b/bing-home-image/pic/${dateList[i]}.jpg`
+    }
+
+    console.log(dateList)    
+} */
+// 2使用接口获取
+function request(){
+  return new Promise((resolve, reject)=>{
+    const xhr = new XMLHttpRequest()
+    xhr.open('GET', 
+             'https://jsonp.afeld.me/?url=https%3A%2F%2Fcn.bing.com%2FHPImageArchive.aspx%3Fformat%3Djs%26idx%3D0%26n%3D7', true)
+    xhr.onreadystatechange = function(){
+      if(xhr.readyState === 4 && xhr.status ===200){
+        resolve(JSON.parse(xhr.response))
+      }
+    }
+    xhr.send()
+  })
 }
 let dateList = []
 let bodyBackgroundUrl = []
-//获取日期对应的bing背景图
-for(let i=0,j=0;i<6;i++,j--){
-    dateList[i] = getDateStr(j)
-    bodyBackgroundUrl[i] = `https://tupian.sioe.cn/b/bing-home-image/pic/${dateList[i]}.jpg`
+const BASE_URL = 'http://s.cn.bing.net'
+//调用request bing背景图
+window.onload = () =>{
+    request().then(res=>{
+        console.log(res.images)
+        for(let i = 0; i < res.images.length; i++){
+            dateList[i] = res.images[i].url
+            bodyBackgroundUrl[i] = BASE_URL + dateList[i]
+        }
+        $(document).trigger('imagesOnload');
+    })
 }
 
-console.log(dateList)
 
 const removePrefix = (url) =>{
     return url.replace('https://', '')
@@ -129,33 +157,35 @@ const render_buttonColor = ()=>{
 }
 
 
-
-let i = 0
-const media = window.matchMedia("(min-width:500px)")
-if (media.matches) { // 媒体查询
-    $('body').css("background-image",`url('${bodyBackgroundUrl[i]}')`)
-    render_buttonColor()
-}else{
-    $('body').css("background-image","url('https://api.dujin.org/bing/m.php')")
-} 
-
-
-$('.previous').on('click',()=>{
-    if(i > 0){
-        i--
-        render_buttonColor()
+//监听imagesOnload,获取url数据，获取后渲染
+$(document).bind('imagesOnload',() =>{
+    let i = 0
+    const media = window.matchMedia("(min-width:500px)")
+    if (media.matches) { // 媒体查询
         $('body').css("background-image",`url('${bodyBackgroundUrl[i]}')`)
-    }
+        render_buttonColor()
+    }else{
+        $('body').css("background-image","url('https://api.dujin.org/bing/m.php')")
+    } 
     
-})
-$('.next').on('click',()=>{
-    if(i < 5){
-        i++
-        render_buttonColor()
-        $('body').css("background-image",`url('${bodyBackgroundUrl[i]}')`)
+    
+    $('.previous').on('click',()=>{
+        if(i > 0){
+            i--
+            render_buttonColor()
+            $('body').css("background-image",`url('${bodyBackgroundUrl[i]}')`)
+        }
         
-    }
-})
+    })
+    $('.next').on('click',()=>{
+        if(i < 5){
+            i++
+            render_buttonColor()
+            $('body').css("background-image",`url('${bodyBackgroundUrl[i]}')`)
+            
+        }
+    })    
+});
 
 /* $('.copyright .text').text('我是底部文字') */
 

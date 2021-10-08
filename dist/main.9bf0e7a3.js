@@ -139,29 +139,57 @@ var hashMap = xObject || [{
   logo: "Z",
   logoType: "text",
   url: "https://www.zhihu.com/"
-}];
+}]; // 1直接用现成url
 
-getDateStr = function getDateStr(DayCount) {
-  var date = new Date();
-  date.setDate(date.getDate() + DayCount); //获取DayCount天后的日期
+/* const getDateStr = (DayCount) =>{ 
+    const date = new Date();
+    date.setDate(date.getDate()+DayCount);//获取DayCount天后的日期
+    const y = date.getFullYear().toString(); 
+    const m = (date.getMonth()+1)<10 ? "0"+(date.getMonth()+1).toString() : (date.getMonth()+1).toString();//获取当前月份的日期，不足10补0
+    const d = date.getDate()<10 ? "0"+date.getDate().toString() : date.getDate().toString();//获取当前几号，不足10补0
+    return y+m+d; 
 
-  var y = date.getFullYear().toString();
-  var m = date.getMonth() + 1 < 10 ? "0" + (date.getMonth() + 1).toString() : (date.getMonth() + 1).toString(); //获取当前月份的日期，不足10补0
+    //获取日期对应的bing背景图
+    for(let i=0,j=0;i<6;i++,j--){
+        dateList[i] = getDateStr(j)
+        bodyBackgroundUrl[i] = `https://tupian.sioe.cn/b/bing-home-image/pic/${dateList[i]}.jpg`
+    }
 
-  var d = date.getDate() < 10 ? "0" + date.getDate().toString() : date.getDate().toString(); //获取当前几号，不足10补0
+    console.log(dateList)    
+} */
+// 2使用接口获取
 
-  return y + m + d;
-};
+function request() {
+  return new Promise(function (resolve, reject) {
+    var xhr = new XMLHttpRequest();
+    xhr.open('GET', 'https://jsonp.afeld.me/?url=https%3A%2F%2Fcn.bing.com%2FHPImageArchive.aspx%3Fformat%3Djs%26idx%3D0%26n%3D7', true);
 
-var dateList = [];
-var bodyBackgroundUrl = []; //获取日期对应的bing背景图
+    xhr.onreadystatechange = function () {
+      if (xhr.readyState === 4 && xhr.status === 200) {
+        resolve(JSON.parse(xhr.response));
+      }
+    };
 
-for (var _i = 0, j = 0; _i < 6; _i++, j--) {
-  dateList[_i] = getDateStr(j);
-  bodyBackgroundUrl[_i] = "https://tupian.sioe.cn/b/bing-home-image/pic/".concat(dateList[_i], ".jpg");
+    xhr.send();
+  });
 }
 
-console.log(dateList);
+var dateList = [];
+var bodyBackgroundUrl = [];
+var BASE_URL = 'http://s.cn.bing.net'; //调用request bing背景图
+
+window.onload = function () {
+  request().then(function (res) {
+    console.log(res.images);
+
+    for (var _i = 0; _i < res.images.length; _i++) {
+      dateList[_i] = res.images[_i].url;
+      bodyBackgroundUrl[_i] = BASE_URL + dateList[_i];
+    }
+
+    $(document).trigger('imagesOnload');
+  });
+};
 
 var removePrefix = function removePrefix(url) {
   return url.replace('https://', '').replace('http://', '').replace('www.', '').replace(/\/.*/, ''); //用正则表达式 删除 / 开头的内容
@@ -238,32 +266,35 @@ var render_buttonColor = function render_buttonColor() {
     $('.previous').css("opacity", "1");
     $('.next').css("opacity", "1");
   }
-};
+}; //监听imagesOnload,获取url数据，获取后渲染
 
-var i = 0;
-var media = window.matchMedia("(min-width:500px)");
 
-if (media.matches) {
-  // 媒体查询
-  $('body').css("background-image", "url('".concat(bodyBackgroundUrl[i], "')"));
-  render_buttonColor();
-} else {
-  $('body').css("background-image", "url('https://api.dujin.org/bing/m.php')");
-}
+$(document).bind('imagesOnload', function () {
+  var i = 0;
+  var media = window.matchMedia("(min-width:500px)");
 
-$('.previous').on('click', function () {
-  if (i > 0) {
-    i--;
-    render_buttonColor();
+  if (media.matches) {
+    // 媒体查询
     $('body').css("background-image", "url('".concat(bodyBackgroundUrl[i], "')"));
-  }
-});
-$('.next').on('click', function () {
-  if (i < 5) {
-    i++;
     render_buttonColor();
-    $('body').css("background-image", "url('".concat(bodyBackgroundUrl[i], "')"));
+  } else {
+    $('body').css("background-image", "url('https://api.dujin.org/bing/m.php')");
   }
+
+  $('.previous').on('click', function () {
+    if (i > 0) {
+      i--;
+      render_buttonColor();
+      $('body').css("background-image", "url('".concat(bodyBackgroundUrl[i], "')"));
+    }
+  });
+  $('.next').on('click', function () {
+    if (i < 5) {
+      i++;
+      render_buttonColor();
+      $('body').css("background-image", "url('".concat(bodyBackgroundUrl[i], "')"));
+    }
+  });
 });
 /* $('.copyright .text').text('我是底部文字') */
 //localStorage
@@ -273,4 +304,4 @@ window.onbeforeunload = function () {
   localStorage.setItem('x', string);
 };
 },{}]},{},["epB2"], null)
-//# sourceMappingURL=main.2e41f91f.js.map
+//# sourceMappingURL=main.9bf0e7a3.js.map
