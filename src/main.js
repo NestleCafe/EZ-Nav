@@ -41,17 +41,22 @@ function request(){
     xhr.send()
   })
 }
-let dateList = []
+
 let bodyBackgroundUrl = []
+let picCopyright = []
+let copyrightLink = []
 const BASE_URL = 'http://s.cn.bing.net'
 //调用request bing背景图
 window.onload = () =>{
     request().then(res=>{
         console.log(res.images)
         for(let i = 0; i < res.images.length; i++){
-            dateList[i] = res.images[i].url
-            bodyBackgroundUrl[i] = BASE_URL + dateList[i]
+            bodyBackgroundUrl[i] = BASE_URL + res.images[i].url
+            picCopyright[i] = res.images[i].copyright
+            copyrightLink[i] = res.images[i].copyrightlink
         }
+        $('.copyright .url').attr('href',`${copyrightLink[picIndex]}`)
+        $('.copyright .url .text').text(`${picCopyright[picIndex]}`)
         $(document).trigger('imagesOnload');
     })
 }
@@ -143,11 +148,12 @@ $('#google').on('click', ()=>{
     }
 })
 
-const render_buttonColor = ()=>{
-    if(i === 0){
+let picIndex = 0
+function renderButtonColor(){
+    if(picIndex === 0){
         $('.previous').css("opacity","0.5")
         $('.next').css("opacity","1")
-    }else if(i === 5){
+    }else if(picIndex === 6){
         $('.previous').css("opacity","1")
         $('.next').css("opacity","0.5")
     }else{
@@ -156,38 +162,41 @@ const render_buttonColor = ()=>{
     }
 }
 
-
 //监听imagesOnload,获取url数据，获取后渲染
 $(document).bind('imagesOnload',() =>{
-    let i = 0
     const media = window.matchMedia("(min-width:500px)")
     if (media.matches) { // 媒体查询
-        $('body').css("background-image",`url('${bodyBackgroundUrl[i]}')`)
-        render_buttonColor()
+        $('body').css("background-image",`url('${bodyBackgroundUrl[picIndex]}')`)
+        renderButtonColor()
     }else{
         $('body').css("background-image","url('https://api.dujin.org/bing/m.php')")
     } 
     
     
     $('.previous').on('click',()=>{
-        if(i > 0){
-            i--
-            render_buttonColor()
-            $('body').css("background-image",`url('${bodyBackgroundUrl[i]}')`)
-        }
-        
+        if(picIndex > 0){
+            picIndex --
+            renderButtonColor()
+            $('body').css("background-image",`url('${bodyBackgroundUrl[picIndex]}')`)
+            $(document).trigger('picIndexChange')
+        }       
     })
+
     $('.next').on('click',()=>{
-        if(i < 5){
-            i++
-            render_buttonColor()
-            $('body').css("background-image",`url('${bodyBackgroundUrl[i]}')`)
-            
+        if(picIndex < 6){
+            picIndex ++
+            renderButtonColor()
+            $('body').css("background-image",`url('${bodyBackgroundUrl[picIndex]}')`)
+            $(document).trigger('picIndexChange')
         }
     })    
 });
 
-/* $('.copyright .text').text('我是底部文字') */
+
+$(document).bind('picIndexChange',() =>{
+    $('.copyright .url').attr('href',`${copyrightLink[picIndex]}`)
+    $('.copyright .url .text').text(`${picCopyright[picIndex]}`)
+})
 
 //localStorage
 window.onbeforeunload = () =>{

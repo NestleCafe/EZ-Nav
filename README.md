@@ -1,10 +1,10 @@
 基于JQuery，自定义常用网站数据储存在LocalStorage
 
-预览链接：https://nestlecafe.github.io/nav-2/dist/index.html
+预览链接：https://nestlecafe.github.io/nav-website/
 
 或者扫二维码：
 
-![image-20210707025515555](https://i.loli.net/2021/07/07/VJ51yWk8MIPsRib.png)
+![image-20211009015605165](https://i.loli.net/2021/10/09/xMvo5T6eDJblwWK.png)
 ## 功能
 
 1. 加载必应每日一图
