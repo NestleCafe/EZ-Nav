@@ -49,7 +49,7 @@ const BASE_URL = 'http://s.cn.bing.net'
 //调用request bing背景图
 window.onload = () =>{
     request().then(res=>{
-        console.log(res.images)
+        console.log('数据获取成功 ', res.images)
         for(let i = 0; i < res.images.length; i++){
             bodyBackgroundUrl[i] = BASE_URL + res.images[i].url
             picCopyright[i] = res.images[i].copyright
