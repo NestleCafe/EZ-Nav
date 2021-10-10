@@ -45,21 +45,27 @@ function request(){
 let bodyBackgroundUrl = []
 let picCopyright = []
 let copyrightLink = []
-const BASE_URL = 'http://s.cn.bing.net'
 //调用request bing背景图
-window.onload = () =>{
-    request().then(res=>{
-        console.log('数据获取成功 ', res.images)
-        for(let i = 0; i < res.images.length; i++){
-            bodyBackgroundUrl[i] = BASE_URL + res.images[i].url
-            picCopyright[i] = res.images[i].copyright
-            copyrightLink[i] = res.images[i].copyrightlink
-        }
-        $('.copyright .url').attr('href',`${copyrightLink[picIndex]}`)
-        $('.copyright .url .text').text(`${picCopyright[picIndex]}`)
-        $(document).trigger('imagesOnload');
-    })
-}
+$(document).ready(()=>{
+    const media = window.matchMedia("(min-width:500px)")
+    if (media.matches) { // 媒体查询
+        const BASE_URL = 'http://s.cn.bing.net'
+        request().then(res=>{
+            console.log('数据获取成功 ', res.images)
+            for(let i = 0; i < res.images.length; i++){
+                bodyBackgroundUrl[i] = BASE_URL + res.images[i].url
+                picCopyright[i] = res.images[i].copyright
+                copyrightLink[i] = res.images[i].copyrightlink
+            }
+            $('.copyright .url').attr('href',`${copyrightLink[picIndex]}`)
+            $('.copyright .url .text').text(`${picCopyright[picIndex]}`)
+            $(document).trigger('onRequest');
+        })
+    }else{
+        $('.globalFooter').remove()
+        $('body').css("background-image","url('https://api.dujin.org/bing/m.php')")
+    }     
+})
 
 
 const removePrefix = (url) =>{
@@ -162,17 +168,13 @@ function renderButtonColor(){
     }
 }
 
-//监听imagesOnload,获取url数据，获取后渲染
-$(document).bind('imagesOnload',() =>{
-    const media = window.matchMedia("(min-width:500px)")
-    if (media.matches) { // 媒体查询
-        $('body').css("background-image",`url('${bodyBackgroundUrl[picIndex]}')`)
-        renderButtonColor()
-    }else{
-        $('body').css("background-image","url('https://api.dujin.org/bing/m.php')")
-    } 
-    
-    
+//监听onRequest,获取url数据，获取后渲染
+
+$(document).bind('onRequest',() =>{
+    //首次打开显示第一张图
+    $('body').css("background-image",`url('${bodyBackgroundUrl[picIndex]}')`)
+    renderButtonColor()
+    //点击上一张图片
     $('.previous').on('click',()=>{
         if(picIndex > 0){
             picIndex --
@@ -181,7 +183,7 @@ $(document).bind('imagesOnload',() =>{
             $(document).trigger('picIndexChange')
         }       
     })
-
+    //点击下一张图片
     $('.next').on('click',()=>{
         if(picIndex < 6){
             picIndex ++
