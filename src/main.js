@@ -10,25 +10,71 @@ const hashMap = xObject || [
     {logo:"B", logoType:"text", url:"https://www.bilibili.com/"},
     {logo:"Z", logoType:"text", url:"https://www.zhihu.com/"},
 ]
+
+let bodyBackgroundUrl = []
+let picCopyright = []
+let copyrightLink = []
+const media = window.matchMedia("(min-width:500px)")
+
+let picIndex = 0
+function renderButtonColor(){
+    if(picIndex === 0){
+        $('.previous').css("opacity","0.5")
+        $('.next').css("opacity","1")
+    }else if(picIndex === 6){
+        $('.previous').css("opacity","1")
+        $('.next').css("opacity","0.5")
+    }else{
+        $('.previous').css("opacity","1")
+        $('.next').css("opacity","1")
+    }
+}
+
 // 1直接用现成url
-/* const getDateStr = (DayCount) =>{ 
+const getDateStr = (DayCount) =>{ 
     const date = new Date();
     date.setDate(date.getDate()+DayCount);//获取DayCount天后的日期
     const y = date.getFullYear().toString(); 
     const m = (date.getMonth()+1)<10 ? "0"+(date.getMonth()+1).toString() : (date.getMonth()+1).toString();//获取当前月份的日期，不足10补0
     const d = date.getDate()<10 ? "0"+date.getDate().toString() : date.getDate().toString();//获取当前几号，不足10补0
     return y+m+d; 
-
-    //获取日期对应的bing背景图
-    for(let i=0,j=0;i<6;i++,j--){
+}
+let dateList = []
+//获取日期对应的bing背景图
+$('.globalFooter .copyright').remove()
+if (media.matches) {
+    for(let i=0, j=0;i<7;i++,j--){
         dateList[i] = getDateStr(j)
         bodyBackgroundUrl[i] = `https://tupian.sioe.cn/b/bing-home-image/pic/${dateList[i]}.jpg`
     }
+}else{
+    $('body').css("background-image","url('https://api.dujin.org/bing/m.php')")
+}
+console.log(bodyBackgroundUrl)    
 
-    console.log(dateList)    
-} */
+$('body').css("background-image",`url('${bodyBackgroundUrl[picIndex]}')`)
+renderButtonColor()
+
+//点击上一张图片
+$('.previous').on('click',()=>{
+    if(picIndex > 0){
+        picIndex --
+        renderButtonColor()
+        $('body').css("background-image",`url('${bodyBackgroundUrl[picIndex]}')`)
+    }       
+})
+//点击下一张图片
+$('.next').on('click',()=>{
+    if(picIndex < 6){
+        picIndex ++
+        renderButtonColor()
+        $('body').css("background-image",`url('${bodyBackgroundUrl[picIndex]}')`)
+    }
+})    
+
+
 // 2使用接口获取
-function request(){
+/* function request(){
   return new Promise((resolve, reject)=>{
     const xhr = new XMLHttpRequest()
     xhr.open('GET', 
@@ -42,12 +88,8 @@ function request(){
   })
 }
 
-let bodyBackgroundUrl = []
-let picCopyright = []
-let copyrightLink = []
 //调用request bing背景图
 $(document).ready(()=>{
-    const media = window.matchMedia("(min-width:500px)")
     if (media.matches) { // 媒体查询
         const BASE_URL = 'http://s.cn.bing.net'
         request().then(res=>{
@@ -65,7 +107,40 @@ $(document).ready(()=>{
         $('.globalFooter').remove()
         $('body').css("background-image","url('https://api.dujin.org/bing/m.php')")
     }     
-})
+}) 
+//监听onRequest,获取url数据，获取后渲染
+
+$(document).bind('onRequest',() =>{
+    //首次打开显示第一张图
+    $('body').css("background-image",`url('${bodyBackgroundUrl[picIndex]}')`)
+    renderButtonColor()
+    //点击上一张图片
+    $('.previous').on('click',()=>{
+        if(picIndex > 0){
+            picIndex --
+            renderButtonColor()
+            $('body').css("background-image",`url('${bodyBackgroundUrl[picIndex]}')`)
+            $(document).trigger('picIndexChange')
+        }       
+    })
+    //点击下一张图片
+    $('.next').on('click',()=>{
+        if(picIndex < 6){
+            picIndex ++
+            renderButtonColor()
+            $('body').css("background-image",`url('${bodyBackgroundUrl[picIndex]}')`)
+            $(document).trigger('picIndexChange')
+        }
+    })    
+});
+
+
+$(document).bind('picIndexChange',() =>{
+    $('.copyright .url').attr('href',`${copyrightLink[picIndex]}`)
+    $('.copyright .url .text').text(`${picCopyright[picIndex]}`)
+}) */
+
+
 
 
 const removePrefix = (url) =>{
@@ -152,52 +227,6 @@ $('#google').on('click', ()=>{
         $('.searchForm').attr('action','https://www.google.com/search')
         .children('input').attr('name','q')
     }
-})
-
-let picIndex = 0
-function renderButtonColor(){
-    if(picIndex === 0){
-        $('.previous').css("opacity","0.5")
-        $('.next').css("opacity","1")
-    }else if(picIndex === 6){
-        $('.previous').css("opacity","1")
-        $('.next').css("opacity","0.5")
-    }else{
-        $('.previous').css("opacity","1")
-        $('.next').css("opacity","1")
-    }
-}
-
-//监听onRequest,获取url数据，获取后渲染
-
-$(document).bind('onRequest',() =>{
-    //首次打开显示第一张图
-    $('body').css("background-image",`url('${bodyBackgroundUrl[picIndex]}')`)
-    renderButtonColor()
-    //点击上一张图片
-    $('.previous').on('click',()=>{
-        if(picIndex > 0){
-            picIndex --
-            renderButtonColor()
-            $('body').css("background-image",`url('${bodyBackgroundUrl[picIndex]}')`)
-            $(document).trigger('picIndexChange')
-        }       
-    })
-    //点击下一张图片
-    $('.next').on('click',()=>{
-        if(picIndex < 6){
-            picIndex ++
-            renderButtonColor()
-            $('body').css("background-image",`url('${bodyBackgroundUrl[picIndex]}')`)
-            $(document).trigger('picIndexChange')
-        }
-    })    
-});
-
-
-$(document).bind('picIndexChange',() =>{
-    $('.copyright .url').attr('href',`${copyrightLink[picIndex]}`)
-    $('.copyright .url .text').text(`${picCopyright[picIndex]}`)
 })
 
 //localStorage
